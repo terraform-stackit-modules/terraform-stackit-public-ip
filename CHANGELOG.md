@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.0 (2026-09-22)
+
+### Features
+
+* Initial STACKIT public IP module ([8fd3753](https://github.com/terraform-stackit-modules/terraform-stackit-public-ip/commit/8fd3753c4e85ef409034c911bbf01b098f4827c5))
+
 ## [1.0.1](https://github.com/terraform-stackit-modules/terraform-repo-template/compare/v1.0.0...v1.0.1) (2026-09-09)
 
 ### Bug Fixes
