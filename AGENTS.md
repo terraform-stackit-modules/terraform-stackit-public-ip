@@ -7,6 +7,29 @@ This file provides context and instructions for AI coding agents (Copilot, Curso
 This is a Terraform module for [STACKIT](https://www.stackit.de/en/), the cloud platform by Schwarz Group.
 It is part of the [terraform-stackit-modules](https://github.com/terraform-stackit-modules) organization, which aims to provide community-maintained, production-grade Terraform modules for STACKIT.
 
+### This module: public-ip
+
+Reserves STACKIT **public (floating) IPs** and optionally associates existing ones to network
+interfaces. Useful for day-2 IP management (reassign an IP without recreating the server).
+
+**Resources managed**
+- `stackit_public_ip` — 0..N reserved IPs, via `for_each` over `var.public_ips`.
+- `stackit_public_ip_associate` — 0..N associations of PRE-EXISTING IPs, via `for_each` over
+  `var.public_ip_associations`.
+
+**Key inputs** — `project_id` (req), `region`, `labels` (merged into every reserved IP),
+`public_ips` (map keyed by stable id: `{network_interface_id?, labels?}`),
+`public_ip_associations` (map keyed by stable id: `{public_ip_id, network_interface_id}`).
+
+**Outputs** — `public_ip_ids`, `public_ips` (key→address), `associated_ips`.
+
+**Gotchas**
+- Do NOT manage the same IP or the same network interface with BOTH `public_ips` and
+  `public_ip_associations` — the STACKIT provider warns this causes conflicts (both would own the
+  association).
+- `stackit_public_ip.network_interface_id` may drift when the IP is attached implicitly (e.g. a
+  Kubernetes LB); consumers can use `lifecycle { ignore_changes }` in their root module.
+
 ## Repository structure
 
 ```
